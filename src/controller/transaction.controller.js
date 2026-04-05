@@ -80,3 +80,34 @@ export const getTransactionId=async(req,res)=>{
         })
     }
 }
+export const updateTransaction=async(req,res)=>{
+    const { amount = null, type = null, category = null, date = null, notes = null } = req.body
+    try{
+        const updated=await pool.query(
+            `UPDATE transactions
+            SET
+            amount=COALESCE($1,amount)
+            type = COALESCE($2, type),
+            category = COALESCE($3, category),
+            date = COALESCE($4, date),
+            notes = COALESCE($5, notes)
+            WHERE id = $6 RETURNING *`,
+           [amount, type, category, date, notes, id]    
+        )
+        if(updated.rows.length===0){
+            return res.status(404).json({
+                message:"Transaction not found"
+            })
+        }
+        res.status(201).json({
+            message:"Transaction updated successfully",
+            result:updated.rows[0]
+        })
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:"internal server error",
+            err
+        })
+    }
+}
