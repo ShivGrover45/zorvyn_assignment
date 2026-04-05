@@ -1,10 +1,9 @@
-import {mysql} from 'mysql2/promise'
+import express from 'express'
+import authRouter from './routes/auth.router.js';
+const app=express()
 
-const db=mysql.creatConnection({
-    host,
-    user,
-    password,
-    database
-})
 
-export default db
+app.use(express.json())
+
+app.use('/api/auth',authRouter)
+export default app;
