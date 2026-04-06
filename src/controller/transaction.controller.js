@@ -111,3 +111,24 @@ export const updateTransaction=async(req,res)=>{
         })
     }
 }
+export const deleteTransaction=async(req,res)=>{
+    const {id}=req.params
+    try{
+        const result=await pool.query(
+            `DELETE FROM transactions WHERE id=$1`,[id]
+        )
+        if(result.rowCount===0){
+            return res.status(404).json({
+                message:"no transaction found"
+            })
+        }
+        res.status(200).json({
+            message:"Transaction deleted successfully"
+        })
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            error:err
+        })
+    }
+}

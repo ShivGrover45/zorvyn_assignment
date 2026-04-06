@@ -7,5 +7,6 @@ transactionRouter.post('/transaction',authenticate,authorize('admin'),postTransa
 transactionRouter.get('/transaction',authenticate,authorize('admin'),getTransaction)
 transactionRouter.get('/transaction:id',authenticate,authorize('admin'),getTransactionId)
 transactionRouter.patch('/transaction/:id',authenticate,authorize('admin'),updateTransaction)
+transactionRouter.delete('/transaction/delete/:id',authenticate,authorize('admin'),)
 
 export default transactionRouter;
